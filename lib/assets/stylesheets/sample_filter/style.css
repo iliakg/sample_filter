@@ -1,0 +1,78 @@
+#sample-filter__wrap{
+
+}
+
+#sample-filter__wrap *{
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.sample-filter__form-item, .sample-filter__form-item.form-actions{
+  width: 300px;
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 10px;
+  margin-bottom: 20px;
+}
+
+.sample-filter__form-label{
+  display: block;
+}
+
+.sample-filter__form-input-wrap{
+  display: block;
+  margin-top: 5px;
+}
+
+.sample-filter__form-input-wrap input, .sample-filter__form-input-wrap select{
+  width: 100%;
+  height: 2em;
+  padding: 0 5px;
+  margin: 0;
+  font-size: 1em;
+  outline: none !important;
+}
+
+.sample-filter__form-input-wrap input.datepicker_input{
+  width: 100px;
+  -webkit-transition: width ease-out 0.3s;
+  -moz-transition: width ease-out 0.3s;
+  -o-transition: width ease-out 0.3s;
+  transition: width ease-out 0.3s;
+}
+
+.sample-filter__form-input-wrap input.datepicker_input.active{
+  width: 150px;
+}
+
+.sample-filter__date-divider{
+  height: 2em;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 10px;
+  line-height: 2em;
+}
+
+.sample-filter__form-item.form-actions{
+  width: 100%;
+  display: block;
+}
+
+.sample-filter__form-item.form-actions input[type="submit"], .sample-filter__clear-form{
+  background: #52c157;
+  width: 280px;
+  height: 2em;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 20px;
+  font-size: 1em;
+  text-align: center;
+  color: #ffffff;
+  border: 0;
+  cursor: pointer;
+}
+
+.sample-filter__clear-form{
+  background: #ffbb44;
+}
