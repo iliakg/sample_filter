@@ -1,3 +1,4 @@
+require 'jquery-rails'
 require 'sample_filter/active_record_extension'
 require 'sample_filter/action_view_extension'
 
