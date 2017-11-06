@@ -20,14 +20,21 @@ Or install it yourself as:
 $ gem install sample_filter
 ```
 
-Require SampleFilter javascripts in your `app/assets/javascripts/application.js`:
+Install javascripts air-datepicker dependency:
+```bash
+$ yarn add air-datepicker
+```
+Require SampleFilter javascripts with air-datepicker dependency in your `app/assets/javascripts/application.js`:
 ``` javascript
-//= require sample_filter
+//= require jquery
+//= require air-datepicker/dist/js/datepicker.min
+//= require sample_filter/script
 ```
 And then require styles in your `app/assets/stylesheets/application.css`:
 ``` css
 /*
- *= require sample_filter
+ *= require air-datepicker/dist/css/datepicker.min
+ *= require sample_filter/style
  */
 ```
 
