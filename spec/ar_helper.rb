@@ -10,3 +10,20 @@ ActiveRecord::Migration.create_table :entities, force: true do |t|
   t.integer :kind
   t.boolean :confirmed
 end
+
+RSpec.configure do |config|
+  config.order = 'random'
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+end

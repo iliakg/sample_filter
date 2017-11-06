@@ -71,7 +71,7 @@ module SampleFilter
 
     def default_value_for(field)
       default_value = options[field.to_sym][:default_value]
-      return unless default_value.present?
+      return if default_value.nil?
 
       case type_of(field)
       when :date
