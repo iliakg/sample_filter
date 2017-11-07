@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["ilia"]
   s.email       = ["piryazevilia@gmail.com"]
   s.homepage    = "https://github.com/iliakg/sample_filter"
-  s.summary     = "sample filter for filtering"
-  s.description = "simple filtering"
+  s.summary     = "Engine plugin that makes to filter"
+  s.description = "SampleFilter is a Rails Engine plugin that makes to filter and sort ActiveRecord lists"
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
