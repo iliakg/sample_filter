@@ -10,7 +10,7 @@ context 'filtered entities' do
           'created_at' => {'type' => 'date'},
           kind: {
             type: 'list',
-            values: {red: 1, 'green' => '2'}
+            values: {red: 1, 'green' => '2', red_and_green: [1, 2]}
           },
           status: {
             type: :list,
@@ -58,6 +58,7 @@ context 'filtered entities' do
     expect(Entity.filtered(ActionController::Parameters.new({kind: 2})).map(&:id)).to eq([entity2.id])
     expect(Entity.filtered(ActionController::Parameters.new({kind: 4})).map(&:id)).to eq([entity3.id])
     expect(Entity.filtered(ActionController::Parameters.new({kind: ''})).map(&:id)).to eq(full_list)
+    expect(Entity.filtered(ActionController::Parameters.new({kind: '[1,2]'})).map(&:id)).to eq([entity1.id, entity2.id, entity4.id, entity5.id])
 
     expect(Entity.filtered(ActionController::Parameters.new({status: 'confirm'})).map(&:id)).to eq([entity1.id, entity2.id, entity4.id, entity5.id])
     expect(Entity.filtered(ActionController::Parameters.new({status: :unconfirm})).map(&:id)).to eq([entity3.id])

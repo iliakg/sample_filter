@@ -60,10 +60,10 @@ module SampleFilter
 
       ar_rel.order("#{column} #{direction}")
     end
-    
+
     def valid_json?(json)
       JSON.parse(json)
-    rescue
+    rescue StandardError
       false
     end
   end

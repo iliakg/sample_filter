@@ -6,8 +6,8 @@ context 'initialize params set with valid attributes' do
       'created_at' => {'type' => 'date', default_value: {from: '09.11.2016', to: '17.11.2017'}},
       kind: {
         type: 'list',
-        values: {red: 1, 'green' => '2'},
-        default_value: 2
+        values: {red: 1, 'green' => '2', red_and_green: [1, 2]},
+        default_value: [1,2]
       },
       status: {
         type: :list,
@@ -34,7 +34,7 @@ context 'initialize params set with valid attributes' do
     expect(subject.title).to be_nil
     expect(subject.amount).to be_nil
     expect(subject.created_at).to eq({from: '09.11.2016', to: '17.11.2017'})
-    expect(subject.kind).to eq('2')
+    expect(subject.kind).to eq('[1, 2]')
     expect(subject.status).to eq('unconfirm')
     expect(subject.confirmed).to eq('f')
     expect(subject.sort).to eq('id_desc')
@@ -52,7 +52,7 @@ context 'initialize params set with valid attributes' do
 
   it 'should return values' do
     expect(subject.values_for('created_at')).to be_nil
-    expect(subject.values_for(:kind)).to eq({'red' => 1, 'green' => '2'})
+    expect(subject.values_for(:kind)).to eq({'red' => 1, 'green' => '2', 'red_and_green' => [1, 2]})
     expect(subject.values_for(:status)).to eq(['confirm', 'unconfirm'])
     expect(subject.values_for(:sort)).to eq(['id', 'title', 'amount'])
   end
