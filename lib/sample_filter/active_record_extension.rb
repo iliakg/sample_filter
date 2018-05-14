@@ -45,7 +45,11 @@ module SampleFilter
     end
 
     def list_query(ar_rel, field, value)
-      ar_rel.where("#{field} = ?", value)
+      if valid_json?(value) && JSON.parse(value).class.name == 'Array'
+        ar_rel.where("#{field} IN (?)", JSON.parse(value))
+      else
+        ar_rel.where("#{field} = ?", value)
+      end
     end
 
     def sorting_query(ar_rel, field, value)
@@ -55,6 +59,12 @@ module SampleFilter
       direction = values.last.downcase == 'asc' ? 'asc' : 'desc'
 
       ar_rel.order("#{column} #{direction}")
+    end
+    
+    def valid_json?(json)
+      JSON.parse(json)
+    rescue
+      false
     end
   end
 end
