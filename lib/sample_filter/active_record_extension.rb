@@ -45,7 +45,11 @@ module SampleFilter
     end
 
     def list_query(ar_rel, field, value)
-      ar_rel.where("#{field} = ?", value)
+      if JSON.parse(value).class.name == 'Array'
+        ar_rel.where("#{field} IN (?)", JSON.parse(value))
+      else
+        ar_rel.where("#{field} = ?", value)
+      end
     end
 
     def sorting_query(ar_rel, field, value)
