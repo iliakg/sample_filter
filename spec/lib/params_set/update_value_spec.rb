@@ -53,4 +53,10 @@ context 'update values for params set field' do
   it { expect{ subject.update_value(:status, {}) }.to raise_error(ArgumentError, 'status values error') }
   it { expect{ subject.update_value(:status, []) }.to raise_error(ArgumentError, 'status values error') }
   it { expect{ subject.update_value(:status, 'string') }.to raise_error(ArgumentError, 'status values error') }
+
+  it { expect{ subject.update_value(:sort, nil) }.to raise_error(ArgumentError, 'sort values error') }
+  it { expect{ subject.update_value(:sort, {}) }.to raise_error(ArgumentError, 'sort values error') }
+  it { expect{ subject.update_value(:sort, {test: :one}) }.to raise_error(ArgumentError, 'sort values error') }
+  it { expect{ subject.update_value(:sort, []) }.to raise_error(ArgumentError, 'sort values error') }
+  it { expect{ subject.update_value(:sort, 'string') }.to raise_error(ArgumentError, 'sort values error') }
 end
