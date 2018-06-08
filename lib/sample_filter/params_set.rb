@@ -26,6 +26,14 @@ module SampleFilter
       end
     end
 
+    def update_value(field, values)
+      field = field.to_sym
+      raise(ArgumentError, "#{field} not found error") unless fields.include?(field)
+      raise(ArgumentError, "#{field} values error") if invalid_values?(field, values)
+
+      options[field][:values] = values
+    end
+
     def permit_params(params)
       return {} unless params.present?
       _fields = fields.map{ |f| type_of(f).eql?(:date) ? Hash[f, [:from, :to]] : f }
@@ -46,7 +54,7 @@ module SampleFilter
     def define_and_assign_attr_accessors
       fields.each do |field|
         raise(ArgumentError, "#{field} type error") if invalid_type?(field)
-        raise(ArgumentError, "#{field} values error") if invalid_values?(field)
+        raise(ArgumentError, "#{field} values error") if invalid_values?(field, values_for(field))
 
         self.class.send(:attr_reader, field)
         instance_variable_set("@#{field}", default_value_for(field))
@@ -57,11 +65,10 @@ module SampleFilter
       !FILTER_TYPES.include?(type_of(field))
     end
 
-    def invalid_values?(field)
+    def invalid_values?(field, values)
       return false unless [:list, :sorting].include?(type_of(field))
-      values = values_for(field)
-
       return true unless values.present?
+
       if type_of(field).eql?(:list)
         (!values.is_a?(Hash) && !values.is_a?(Array))
       elsif type_of(field).eql?(:sorting)

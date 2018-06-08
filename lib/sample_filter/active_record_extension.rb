@@ -24,6 +24,10 @@ module SampleFilter
       ar_rel
     end
 
+    def filter_update_value(field, values)
+      filter_params_set.update_value(field, values)
+    end
+
     private
 
     def string_query(ar_rel, field, value)

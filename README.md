@@ -5,7 +5,6 @@ SampleFilter is a Rails Engine plugin that makes to filter and sort ActiveRecord
 
 ## Installation
 Add this line to your application's Gemfile:
-
 ```ruby
 gem 'sample_filter'
 ```
@@ -24,6 +23,7 @@ Install javascripts air-datepicker dependency:
 ```bash
 $ yarn add air-datepicker
 ```
+
 Require SampleFilter javascripts with air-datepicker dependency in your `app/assets/javascripts/application.js`:
 ``` javascript
 //= require jquery
@@ -42,7 +42,6 @@ And then require styles in your `app/assets/stylesheets/application.css`:
 
 ### Configuring Models
 The SampleFilter method in your models accepts options to configure its modules. For example:
-
 ```ruby
 class Entity < ApplicationRecord
   sample_filter(
@@ -71,6 +70,13 @@ class Entity < ApplicationRecord
 end
 ```
 
+for update values on demand in list or sorting fields, call method
+```ruby
+Entity.filter_update_value(:kind, [:black, :white])
+# or hash
+Entity.filter_update_value(:kind, { black: 3, white: 4 })
+```
+
 ### Form helpers
 ```ruby
 <%= form_for_filter(Entity, as: :sample_filter, block: :after, html: { method: :get, id: :sample_filter}) do %>
@@ -95,7 +101,6 @@ In your `index` method:
 
 ### I18n
 SampleFilter uses labels with I18n:
-
 ```yaml
 en:
   sample_filter:
