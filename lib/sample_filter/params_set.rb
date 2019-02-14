@@ -26,6 +26,24 @@ module SampleFilter
       end
     end
 
+    def default_value_for(field)
+      default_value = options[field.to_sym][:default_value]
+      return if default_value.nil?
+
+      case type_of(field)
+      when :date
+        default_value.deep_symbolize_keys
+      when :boolean
+        if [true, 'true', 't'].include?(default_value)
+          't'
+        elsif [false, 'false', 'f'].include?(default_value)
+          'f'
+        end
+      else
+        default_value.to_s
+      end
+    end
+
     def update_value(field, values)
       field = field.to_sym
       raise(ArgumentError, "#{field} not found error") unless fields.include?(field)
@@ -47,6 +65,14 @@ module SampleFilter
     def update_attributes(params)
       _params = permit_params(params)
       fields.each { |field| instance_variable_set("@#{field}", _params[field] || default_value_for(field)) }
+    end
+
+    def sorting_key
+      options.select{|_key, hash| hash[:type] == :sorting }&.first&.first
+    end
+
+    def hidden_input?(field)
+      !!options[field.to_sym][:hidden_input]
     end
 
     private
@@ -73,24 +99,6 @@ module SampleFilter
         (!values.is_a?(Hash) && !values.is_a?(Array))
       elsif type_of(field).eql?(:sorting)
         (!values.is_a?(Array))
-      end
-    end
-
-    def default_value_for(field)
-      default_value = options[field.to_sym][:default_value]
-      return if default_value.nil?
-
-      case type_of(field)
-      when :date
-        default_value.deep_symbolize_keys
-      when :boolean
-        if [true, 'true', 't'].include?(default_value)
-          't'
-        elsif [false, 'false', 'f'].include?(default_value)
-          'f'
-        end
-      else
-        default_value.to_s
       end
     end
   end

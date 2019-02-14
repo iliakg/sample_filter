@@ -63,7 +63,8 @@ class Entity < ApplicationRecord
       sort: {
         type: :sorting,
         values: [:id, :amount, :created_at],
-        default_value: 'amount_desc'
+        default_value: 'amount_desc',
+        hidden_input: true # this option transform select to hidden input in form
       }
     }
   )
@@ -91,6 +92,11 @@ options[:url] ||= url_for(
   :controller => controller.controller_name,
   :action => controller.action_name
 )
+```
+
+Table sorting link
+``` ruby
+<%= sort_link(Entity, :sorting_field) %>
 ```
 
 ### Controller

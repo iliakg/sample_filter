@@ -76,3 +76,22 @@
 .sample-filter__clear-form{
   background: #ffbb44;
 }
+
+.sample_filter__sort_link {
+
+}
+.sample_filter__sort_link.asc:before {
+  content: '▲';
+  display: inline-block;
+  vertical-align: top;
+}
+.sample_filter__sort_link.desc:before {
+  content: '▼';
+  display: inline-block;
+  vertical-align: top;
+}
+.sample_filter__sort_link.neutral:before {
+  content: '►';
+  display: inline-block;
+  vertical-align: top;
+}

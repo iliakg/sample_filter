@@ -1,9 +1,10 @@
 module SampleFilter
   module ActionViewExtension
+    FORM_DEFAULT_AS = :sample_filter
     TRANSLATE_PREFIX = 'sample_filter'
 
     def form_for_filter(filter_class, options = {}, &block)
-      options[:as] ||= :sample_filter
+      options[:as] ||= FORM_DEFAULT_AS
       options[:block] ||= :after
       options[:html] ||= {}
       options[:html][:method] ||= :get
@@ -22,15 +23,56 @@ module SampleFilter
           buffer = ActiveSupport::SafeBuffer.new
           buffer << capture(&block) if block_given? && options[:block].eql?(:before)
           filter_params_set.fields.each do |field|
-            type = filter_params_set.type_of(field)
             buffer <<
-              content_tag(:div, class: 'sample-filter__form-item') do
-                content_tag(:div, form.label(field, sft(prefix, :fields, field)), class: 'sample-filter__form-label') +
-                content_tag(:div, send("#{type}_tag", form, prefix, filter_params_set, field), class: 'sample-filter__form-input-wrap')
+              if filter_params_set.hidden_input?(field)
+                form.hidden_field field
+              else
+                type = filter_params_set.type_of(field)
+                content_tag(:div, class: "sample-filter__form-item #{field}") do
+                  content_tag(:div, form.label(field, sft(prefix, :fields, field)), class: 'sample-filter__form-label') +
+                  content_tag(:div, send("#{type}_tag", form, prefix, filter_params_set, field), class: 'sample-filter__form-input-wrap')
+                end
               end
           end
           buffer << capture(&block) if block_given? && options[:block].eql?(:after)
           buffer + action_buttons(prefix)
+        end
+      end
+    end
+
+    def sort_link(filter_class, sorting_field, form_as = FORM_DEFAULT_AS)
+      sorting_field = sorting_field.to_s
+      filter_params_set = filter_class.filter_params_set
+      sorting_key = filter_params_set.sorting_key
+      values = filter_params_set.values_for(sorting_key)
+      return unless values.include?(sorting_field)
+
+      default_value = filter_params_set.default_value_for(sorting_key)
+      query_param = params[form_as]
+      if query_param && query_param[sorting_key]
+        query_param_sort_key = query_param[sorting_key][/\A(.*)_(asc|desc)\z/, 1]
+        param_set = params.require(form_as).permit!
+        if query_param_sort_key == sorting_field
+          sort_direction = query_param[sorting_key][/\A(.*)_(asc|desc)\z/, 2]
+          if sort_direction == 'asc'
+            link_to('', url_for(form_as => param_set.merge({sorting_key => "#{sorting_field}_desc"})), class: 'sample_filter__sort_link asc')
+          else
+            link_to('', url_for(form_as => param_set.merge({sorting_key => "#{sorting_field}_asc"})), class: 'sample_filter__sort_link desc')
+          end
+        else
+          link_to('', url_for(form_as => param_set.merge({sorting_key => "#{sorting_field}_desc"})), class: 'sample_filter__sort_link neutral')
+        end
+      else
+        default_field = default_value[/\A(.*)_(asc|desc)\z/, 1] if default_value
+        if sorting_field == default_field
+          sort_direction = default_value[/\A(.*)_(asc|desc)\z/, 2]
+          if sort_direction == 'asc'
+            link_to('', url_for(form_as => {sorting_key => "#{sorting_field}_desc"}), class: 'sample_filter__sort_link asc')
+          else
+            link_to('', url_for(form_as => {sorting_key => "#{sorting_field}_asc"}), class: 'sample_filter__sort_link desc')
+          end
+        else
+          link_to('', url_for(form_as => {sorting_key => "#{sorting_field}_desc"}), class: 'sample_filter__sort_link neutral')
         end
       end
     end

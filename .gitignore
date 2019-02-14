@@ -8,3 +8,4 @@ log/*.log
 pkg/
 tmp
 spec/dummy
+TAGS
