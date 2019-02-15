@@ -121,9 +121,11 @@ en:
         sort: Sorting
       list:
         kind:
+          all_item: All colors
           red: Red color
           green: Green color
         status:
+          all_item: All statuses
           active: Active status
           inactive: Inactive status
         confirmed:

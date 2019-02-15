@@ -110,7 +110,7 @@ module SampleFilter
           values.map{|el| [sft(prefix, :list, field, el), el]}
         end
 
-      form.select field, [[sft(:lists, :all_item), '']].concat(translated_values)
+      form.select field, [[sft(prefix, :list, field, :all_item), '']].concat(translated_values)
     end
 
     def sorting_tag(form, prefix, filter_params_set, field)
