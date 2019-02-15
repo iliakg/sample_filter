@@ -110,8 +110,6 @@ SampleFilter uses labels with I18n:
 ```yaml
 en:
   sample_filter:
-    lists:
-      all_item: all
     entity:
       fields:
         title: Title
@@ -121,22 +119,30 @@ en:
         status: Status
         confirmed: Confirmed status
         sort: Sorting
+      list:
+        kind:
+          red: Red color
+          green: Green color
+        status:
+          active: Active status
+          inactive: Inactive status
+        confirmed:
+          all_item: All
+          'true': Confirmed
+          'false': Unconfirmed
+        sort:
+          id:
+            asc: id ↓
+            desc: id ↑
+          created_at:
+            asc: created_at ↓
+            desc: created_at ↑
+          amount:
+            asc: amount ↓
+            desc: amount ↑
       buttons:
         submit: Submit
         clear_form: Clear Form
-      boolean:
-        'true': true
-        'false': false
-      sort:
-        id:
-          asc: id ↓
-          desc: id ↑
-        created_at:
-          asc: created_at ↓
-          desc: created_at ↑
-        amount:
-          asc: amount ↓
-          desc: amount ↑
 ```
 
 ## License

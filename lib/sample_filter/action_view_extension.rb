@@ -91,23 +91,31 @@ module SampleFilter
       as = form.options[:as]
       from = filter_params_set.send(field).try(:[], :from)
       to = filter_params_set.send(field).try(:[], :to)
-      text_field_tag("#{as}[#{field}][from]", from, class: 'datepicker_input active') +
+      text_field_tag("#{as}[#{field}][from]", from, class: 'datepicker_input active', autocomplete: 'off') +
       content_tag(:div, ' - ', class: 'sample-filter__date-divider') +
-      text_field_tag("#{as}[#{field}][to]", to, class: 'datepicker_input')
+      text_field_tag("#{as}[#{field}][to]", to, class: 'datepicker_input', autocomplete: 'off')
     end
 
     def boolean_tag(form, prefix, filter_params_set, field)
-      form.select field, [[sft(:lists, :all_item), ''], [sft(prefix, :boolean, :true), 't'], [sft(prefix, :boolean, :false), 'f']]
+      form.select field, [[sft(prefix, :list, field, :all_item), ''], [sft(prefix, :list, field, :true), 't'], [sft(prefix, :list, field, :false), 'f']]
     end
 
     def list_tag(form, prefix, filter_params_set, field)
       values = filter_params_set.values_for(field)
-      form.select field, [[sft(:lists, :all_item), '']].concat(values.to_a)
+
+      translated_values =
+        if values.is_a?(Hash)
+          values.map{|el| [sft(prefix, :list, field, el[0]), el[1]]}
+        elsif values.is_a?(Array)
+          values.map{|el| [sft(prefix, :list, field, el), el]}
+        end
+
+      form.select field, [[sft(:lists, :all_item), '']].concat(translated_values)
     end
 
     def sorting_tag(form, prefix, filter_params_set, field)
       values = filter_params_set.values_for(field)
-      form.select(field, values.map{|v| [[sft(prefix, field, v, :asc), "#{v}_asc"], [sft(prefix, field, v, :desc), "#{v}_desc"]]}.flatten(1))
+      form.select(field, values.map{|v| [[sft(prefix, :list, field, v, :asc), "#{v}_asc"], [sft(prefix, :list, field, v, :desc), "#{v}_desc"]]}.flatten(1))
     end
 
     def action_buttons(prefix)
